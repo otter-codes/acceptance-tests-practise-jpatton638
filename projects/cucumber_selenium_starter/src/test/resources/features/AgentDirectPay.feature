@@ -2,8 +2,8 @@ Feature: Agents or representatives can register on behalf of someone who pays fo
 
   As an agent/representative who is acting on behalf of someone who pays for their own care, I should be able to
   provide my client's details and register for the scheme on their behalf.
-@wip
-  Scenario: Agent acting on a user with a UK address can register them for the scheme
+
+  Scenario: Agent acting on behalf of a user with a UK address can register them for the scheme
     Given I am on the social care compliance homepage
     When I choose the "An agent or representative of someone who pays for care directly" option
     And I click continue

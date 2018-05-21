@@ -21,6 +21,8 @@ class StepDefinitions extends ScalaDsl with EN with Matchers with Browser {
         click on id("capacityRegistering.personalBudgetHolderDirect")
       case "An agent or representative of someone who pays for care directly" =>
         click on id("capacityRegistering.personalBudgetHolderAgent")
+      case "A company that employs social care worker" =>
+        click on id("capacityRegistering.companyEmployeeOrDirector")
       case "Yes" =>
         click on id("value-yes")
       case "No" =>
@@ -33,12 +35,15 @@ class StepDefinitions extends ScalaDsl with EN with Matchers with Browser {
   }
 
   When("""^I enter my full name$"""){ () =>
-
-      textField("value").value = "Bob Dole"
+    textField("value").value = "Bob Dole"
   }
 
   When("""^I enter my client's full name$"""){ () =>
-      textField("value").value = "Mary Sue"
+    textField("value").value = "Mary Sue"
+  }
+
+  When("""I enter the company name"""){ () =>
+    textField("value").value = "Social Care Inc."
   }
 
   When("""^I enter the address as$"""){ table: DataTable =>
@@ -55,52 +60,58 @@ class StepDefinitions extends ScalaDsl with EN with Matchers with Browser {
     textField("value").value = "01912359876"
   }
 
+  When("""^I enter the company telephone number$""") { () =>
+    textField("value").value = "01919876543"
+  }
+
   Then("""^I will be asked (.+)$""") { path: String =>
+
+    val getH1 = find(cssSelector("h1")).get.text
+
     path match {
-      case "if my address is in the UK" =>
-        find(cssSelector("h1")).get.text shouldBe "Is your address in the UK?"
+      case "if my address is in the UK" => getH1 shouldBe "Is your address in the UK?"
 
-      case "if their address is in the UK" =>
-        find(cssSelector("h1")).get.text shouldBe "Is the address of the person who pays for care in the UK?"
+      case "if their address is in the UK" => getH1 shouldBe "Is the address of the person who pays for care in the UK?"
 
-      case "for my full name" =>
-        find(cssSelector("h1")).get.text shouldBe "What is your full name?"
+      case "if the company's address is in the UK" => getH1 shouldBe "Is the company’s address in the UK?"
 
-      case "for my client's full name" =>
-        find(cssSelector("h1")).get.text shouldBe "What is the full name of the person who pays for care?"
+      case "for my full name" => getH1 shouldBe "What is your full name?"
 
-      case "for my address" =>
-        find(cssSelector("h1")).get.text shouldBe "What is your address?"
+      case "for my client's full name" => getH1 shouldBe "What is the full name of the person who pays for care?"
 
-      case "for my client's address" =>
-        find(cssSelector("h1")).get.text shouldBe "What is the address of the person who pays for care?"
+      case "for the company name" => getH1 shouldBe "What is the name of the company employing social care workers?"
 
-      case "for my telephone number" =>
-        find(cssSelector("h1")).get.text shouldBe "What is your telephone number?"
+      case "for my address" => getH1 shouldBe "What is your address?"
 
-      case "for my client's telephone number" =>
-        find(cssSelector("h1")).get.text shouldBe "What is the telephone number of the person who pays for care?"
+      case "for my client's address" => getH1 shouldBe "What is the address of the person who pays for care?"
 
-      case "if I have an email address" =>
-        find(cssSelector("h1")).get.text shouldBe "Do you have an email address we can contact you on?"
+      case "for my company's address" => getH1 shouldBe "What is the company’s address?"
 
-      case "if I have a UTR" =>
-        find(cssSelector("h1")).get.text shouldBe "Do you have a Unique Taxpayer Reference (UTR) number?"
+      case "for my telephone number" => getH1 shouldBe "What is your telephone number?"
 
-      case "if they have a UTR" =>
-        find(cssSelector("h1")).get.text shouldBe "Does the person who pays for care have a Unique Taxpayer Reference (UTR) number?"
+      case "for my client's telephone number" => getH1 shouldBe "What is the telephone number of the person who pays for care?"
 
-      case "if I have a PAYE reference number" =>
-        find(cssSelector("h1")).get.text shouldBe "Do you have a Pay As You Earn (PAYE) reference number?"
+      case "for the company's telephone number" => getH1 shouldBe "What is the company’s telephone number?"
 
-      case "if they have a PAYE reference number" =>
-        find(cssSelector("h1")).get.text shouldBe "Does the person who pays for care have a Pay As You Earn (PAYE) reference number?"
+      case "if I have an email address" => getH1 shouldBe "Do you have an email address we can contact you on?"
 
-      case "to check my answers" =>
-        find(cssSelector("h1")).get.text shouldBe "Check your answers before sending your application"
+      case "if the company has an email address" => getH1 shouldBe "Does the company have an email address we can contact them on?"
 
-      case "if my client has an email address" =>
-        find(cssSelector("h1")).get.text shouldBe "Does the person who pays for care have an email address we can contact them on?"
+      case "if I have a UTR" => getH1 shouldBe "Do you have a Unique Taxpayer Reference (UTR) number?"
+
+      case "if they have a UTR" => getH1 shouldBe "Does the person who pays for care have a Unique Taxpayer Reference (UTR) number?"
+
+      case "if the company have a UTR" => getH1 shouldBe "Does the company have a Unique Taxpayer Reference (UTR) number?"
+
+      case "if I have a PAYE reference number" => getH1 shouldBe "Do you have a Pay As You Earn (PAYE) reference number?"
+
+      case "if they have a PAYE reference number" => getH1 shouldBe "Does the person who pays for care have a Pay As You Earn (PAYE) reference number?"
+
+      case "if the company have a PAYE reference number" => getH1 shouldBe "Does the company have a Pay As You Earn (PAYE) reference number?"
+
+      case "to check my answers" => getH1 shouldBe "Check your answers before sending your application"
+
+      case "if my client has an email address" => getH1 shouldBe "Does the person who pays for care have an email address we can contact them on?"
     }
   }
 
