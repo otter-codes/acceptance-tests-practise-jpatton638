@@ -8,7 +8,8 @@ import org.junit.runner.RunWith
 @CucumberOptions(
   features = Array("src/test/resources/features"),
   plugin = Array ("pretty"),
-  glue = Array("steps")
+  glue = Array("steps"),
+  tags = Array("@wip")
 )
 class Runner {
 }
