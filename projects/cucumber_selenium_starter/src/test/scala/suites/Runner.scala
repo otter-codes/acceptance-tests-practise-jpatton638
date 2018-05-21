@@ -9,7 +9,6 @@ import org.junit.runner.RunWith
   features = Array("src/test/resources/features"),
   plugin = Array ("pretty"),
   glue = Array("steps"),
-  tags = Array("@wip")
 )
 class Runner {
 }
